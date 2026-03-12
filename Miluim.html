@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>מילואים | יחידת המטה</title>
+
+  <style>
+    :root{
+      --bg1:#050814;
+      --bg2:#070b1a;
+      --card:rgba(15,20,45,.58);
+      --border:rgba(255,255,255,.12);
+      --borderStrong:rgba(255,255,255,.22);
+      --text:#ffffff;
+      --textDim:rgba(255,255,255,.72);
+      --glass:rgba(10,12,26,.55);
+      --accent:#8b7cff;
+      --accent2:#44d9ff;
+      --shadow:0 20px 60px rgba(0,0,0,.35);
+    }
+
+    *{box-sizing:border-box}
+
+    html,body{
+      height:100%;
+      margin:0;
+      scroll-behavior:smooth;
+    }
+
+    body{
+      font-family:Arial,sans-serif;
+      color:var(--text);
+      overflow-x:hidden;
+      background:transparent;
+    }
+
+    body::before{
+      content:"";
+      position:fixed;
+      inset:0;
+      z-index:-3;
+      background:
+        radial-gradient(circle at 20% 0%, rgba(74,52,160,.35) 0%, transparent 45%),
+        radial-gradient(circle at 80% 100%, rgba(120,40,180,.28) 0%, transparent 50%),
+        linear-gradient(180deg,var(--bg1) 0%, var(--bg2) 100%);
+    }
+
+    .nebula{
+      position:fixed;
+      inset:-20%;
+      z-index:-2;
+      pointer-events:none;
+      background:
+        radial-gradient(circle at 35% 30%, rgba(94,80,255,.08), transparent 60%),
+        radial-gradient(circle at 70% 70%, rgba(255,70,170,.06), transparent 55%),
+        radial-gradient(circle at 20% 80%, rgba(0,220,255,.05), transparent 55%);
+      filter:blur(18px);
+      animation:nebulaMove 18s ease-in-out infinite alternate;
+    }
+
+    @keyframes nebulaMove{
+      from{transform:translate3d(-1.5%,-1%,0) scale(1.02)}
+      to{transform:translate3d(1.5%,1%,0) scale(1.04)}
+    }
+
+    .stars{
+      position:fixed;
+      inset:0;
+      z-index:-1;
+      pointer-events:none;
+      overflow:hidden;
+    }
+
+    .star{
+      position:absolute;
+      width:3px;
+      height:3px;
+      background:rgba(255,255,255,.35);
+      border-radius:50%;
+      animation:float 14s linear infinite;
+      filter:drop-shadow(0 0 10px rgba(255,255,255,.25));
+    }
+
+    @keyframes float{
+      from{transform:translateY(0)}
+      to{transform:translateY(-120vh)}
+    }
+
+    .container{
+      width:min(1200px,92%);
+      margin:auto;
+      padding:34px 0 60px;
+      min-height:100vh;
+    }
+
+    .topbar{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+      flex-wrap:wrap;
+      margin-bottom:24px;
+    }
+
+    .back-btn{
+      border:1px solid rgba(255,255,255,.22);
+      background:rgba(255,255,255,.08);
+      color:#fff;
+      border-radius:14px;
+      padding:10px 14px;
+      cursor:pointer;
+      transition:.22s;
+      text-decoration:none;
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      backdrop-filter:blur(10px);
+    }
+
+    .back-btn:hover{
+      transform:translateY(-2px);
+      background:rgba(255,255,255,.14);
+      border-color:rgba(255,255,255,.3);
+    }
+
+    .hero{
+      text-align:center;
+      margin-bottom:26px;
+    }
+
+    .hero h1{
+      font-size:clamp(34px,5vw,58px);
+      margin:0 0 8px;
+      letter-spacing:.5px;
+      text-shadow:0 0 30px rgba(139,124,255,.22);
+    }
+
+    .hero p{
+      margin:0;
+      color:var(--textDim);
+      font-size:15px;
+    }
+
+    .info-strip{
+      display:grid;
+      grid-template-columns:repeat(3,minmax(180px,1fr));
+      gap:14px;
+      margin:24px auto 34px;
+      max-width:980px;
+    }
+
+    @media(max-width:860px){
+      .info-strip{grid-template-columns:1fr}
+    }
+
+    .info-card{
+      background:var(--glass);
+      border:1px solid var(--border);
+      border-radius:18px;
+      padding:16px 18px;
+      text-align:center;
+      backdrop-filter:blur(12px);
+      box-shadow:var(--shadow);
+    }
+
+    .info-card strong{
+      display:block;
+      font-size:28px;
+      margin-bottom:4px;
+    }
+
+    .info-card span{
+      color:var(--textDim);
+      font-size:13px;
+    }
+
+    .category{
+      margin-top:34px;
+    }
+
+    .category h2{
+      margin:0 0 14px;
+      font-size:24px;
+      text-align:center;
+    }
+
+    .docs-grid{
+      display:grid;
+      gap:16px;
+      grid-template-columns:repeat(auto-fit, minmax(260px,1fr));
+    }
+
+    .doc-card{
+      position:relative;
+      overflow:hidden;
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:20px;
+      padding:20px;
+      transition:transform .25s ease, border-color .25s ease, box-shadow .25s ease;
+      backdrop-filter:blur(12px);
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+      min-height:235px;
+      box-shadow:0 10px 35px rgba(0,0,0,.22);
+    }
+
+    .doc-card::before{
+      content:"";
+      position:absolute;
+      inset:0 0 auto 0;
+      height:3px;
+      background:linear-gradient(90deg,var(--accent),var(--accent2));
+      opacity:.7;
+    }
+
+    .doc-card:hover{
+      transform:translateY(-6px);
+      border-color:var(--borderStrong);
+      box-shadow:0 20px 60px rgba(0,0,0,.35);
+    }
+
+    .doc-top{
+      display:flex;
+      align-items:flex-start;
+      gap:12px;
+    }
+
+    .doc-icon{
+      width:46px;
+      height:46px;
+      min-width:46px;
+      display:grid;
+      place-items:center;
+      border-radius:14px;
+      background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.12);
+      font-size:22px;
+    }
+
+    .doc-card h3{
+      margin:0;
+      font-size:22px;
+      line-height:1.25;
+    }
+
+    .doc-card p{
+      margin:0;
+      color:var(--textDim);
+      line-height:1.55;
+      min-height:52px;
+    }
+
+    .tags{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+    }
+
+    .tag{
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.16);
+      background:rgba(255,255,255,.06);
+      color:rgba(255,255,255,.76);
+      font-size:12px;
+    }
+
+    .doc-actions{
+      margin-top:auto;
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+
+    .doc-btn{
+      flex:1 1 140px;
+      text-align:center;
+      text-decoration:none;
+      border:1px solid rgba(255,255,255,.18);
+      background:rgba(255,255,255,.08);
+      color:#fff;
+      border-radius:12px;
+      padding:10px 12px;
+      transition:.22s;
+      font-weight:bold;
+    }
+
+    .doc-btn:hover{
+      background:rgba(255,255,255,.16);
+      transform:translateY(-2px);
+      border-color:rgba(255,255,255,.28);
+    }
+
+    .doc-btn.disabled{
+      opacity:.5;
+      pointer-events:none;
+      cursor:default;
+    }
+
+    footer{
+      margin-top:48px;
+      text-align:center;
+      color:rgba(255,255,255,.55);
+      font-size:12px;
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      html,body{scroll-behavior:auto}
+      .nebula,.star,.doc-card,.doc-btn,.back-btn{
+        animation:none !important;
+        transition:none !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="nebula"></div>
+  <div class="stars" id="stars" aria-hidden="true"></div>
+
+  <div class="container">
+
+    <div class="topbar">
+      <a class="back-btn" href="index.html" aria-label="חזרה לעמוד הראשי">← חזרה לעמוד הראשי</a>
+    </div>
+
+    <section class="hero">
+      <h1>מילואים</h1>
+      <p>מידע, תהליכים, זכויות, טפסים ומסמכים במקום אחד</p>
+    </section>
+
+    <div class="info-strip">
+      <div class="info-card">
+        <strong>נהלים</strong>
+        <span>תהליכים ומסמכי הסבר</span>
+      </div>
+      <div class="info-card">
+        <strong>זכויות</strong>
+        <span>מידע והטבות</span>
+      </div>
+      <div class="info-card">
+        <strong>טפסים</strong>
+        <span>קישורים למסמכים קבועים</span>
+      </div>
+    </div>
+
+    <section class="category">
+      <h2>נהלים ותהליכים</h2>
+      <div class="docs-grid" id="processGrid"></div>
+    </section>
+
+    <section class="category">
+      <h2>זכויות והטבות</h2>
+      <div class="docs-grid" id="rightsGrid"></div>
+    </section>
+
+    <section class="category">
+      <h2>טפסים ומסמכים</h2>
+      <div class="docs-grid" id="formsGrid"></div>
+    </section>
+
+    <footer>© 2026 • יחידת המטה</footer>
+  </div>
+
+  <script>
+    const stars = document.getElementById("stars");
+
+    for(let i = 0; i < 70; i++){
+      const s = document.createElement("div");
+      s.className = "star";
+      s.style.left = Math.random() * 100 + "%";
+      s.style.top = (Math.random() * 120) + "%";
+      s.style.animationDelay = Math.random() * 14 + "s";
+      s.style.opacity = (.25 + Math.random() * .55).toFixed(2);
+
+      const size = 2 + Math.random() * 2.2;
+      s.style.width = size + "px";
+      s.style.height = size + "px";
+
+      stars.appendChild(s);
+    }
+
+    const processDocs = [
+      {
+        title: "תהליך גיוס",
+        desc: "הסבר על שלבי התהליך, המסמכים הנדרשים והגורמים המטפלים.",
+        tags: ["נוהל", "פלייר"],
+        icon: "📋",
+        link: "#"
+      },
+      {
+        title: "דיווחי נוכחות",
+        desc: "הסבר על אופן הדיווח, מועדי הגשה וקישורים למסמכים רלוונטיים.",
+        tags: ["נוכחות", "הליך"],
+        icon: "🕒",
+        link: "#"
+      },
+      {
+        title: "קליטה והצטרפות",
+        desc: "מידע למשרת חדש במילואים: מה מקבלים, למי פונים ומה חשוב לדעת.",
+        tags: ["קליטה", "מידע"],
+        icon: "🪪",
+        link: "#"
+      }
+    ];
+
+    const rightsDocs = [
+      {
+        title: "ימי מחלה",
+        desc: "מידע על אופן הדיווח, המסמכים הנדרשים ולמי מעבירים.",
+        tags: ["זכויות", "מחלה"],
+        icon: "🩺",
+        link: "#"
+      },
+      {
+        title: "חופשות",
+        desc: "הסבר על חופשות, אישורים נדרשים והיכן נמצא המידע המלא.",
+        tags: ["חופשה", "נוהל"],
+        icon: "🌴",
+        link: "#"
+      },
+      {
+        title: "הטבות וזכויות",
+        desc: "ריכוז זכויות, הטבות ומידע חשוב למשרתים.",
+        tags: ["הטבות", "זכויות"],
+        icon: "🎖️",
+        link: "#"
+      }
+    ];
+
+    const formsDocs = [
+      {
+        title: "טפסים שימושיים",
+        desc: "קישורים מהירים לטפסים נפוצים ולעמודי מסמכים קבועים.",
+        tags: ["טפסים", "מהיר"],
+        icon: "📝",
+        link: "#"
+      },
+      {
+        title: "שאלות נפוצות",
+        desc: "ריכוז תשובות לשאלות שחוזרות על עצמן כדי לחסוך זמן ולתת מענה מהיר.",
+        tags: ["FAQ", "מידע"],
+        icon: "❓",
+        link: "#"
+      },
+      {
+        title: "יצירת קשר",
+        desc: "דרכי פנייה, בעלי תפקידים, שעות מענה ומידע על ערוצי הקשר הקיימים.",
+        tags: ["קשר", "סיוע"],
+        icon: "📞",
+        link: "#"
+      }
+    ];
+
+    function renderDocs(containerId, docs){
+      const grid = document.getElementById(containerId);
+      grid.innerHTML = "";
+
+      docs.forEach(doc => {
+        const card = document.createElement("div");
+        card.className = "doc-card";
+
+        const tagsHtml = (doc.tags || [])
+          .map(tag => `<span class="tag">${tag}</span>`)
+          .join("");
+
+        const hasRealLink = doc.link && doc.link !== "#";
+
+        card.innerHTML = `
+          <div class="doc-top">
+            <div class="doc-icon">${doc.icon || "📄"}</div>
+            <div>
+              <h3>${doc.title}</h3>
+            </div>
+          </div>
+
+          <p>${doc.desc || ""}</p>
+
+          <div class="tags">${tagsHtml}</div>
+
+          <div class="doc-actions">
+            <a
+              class="doc-btn ${hasRealLink ? "" : "disabled"}"
+              href="${hasRealLink ? doc.link : "javascript:void(0)"}"
+              ${hasRealLink ? 'target="_blank" rel="noopener noreferrer"' : 'aria-disabled="true"'}
+            >
+              ${hasRealLink ? "פתח מסמך" : "יעלה בקרוב"}
+            </a>
+          </div>
+        `;
+
+        grid.appendChild(card);
+      });
+    }
+
+    renderDocs("processGrid", processDocs);
+    renderDocs("rightsGrid", rightsDocs);
+    renderDocs("formsGrid", formsDocs);
+  </script>
+</body>
+</html>
