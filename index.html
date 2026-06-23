@@ -1,893 +1,131 @@
 <!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>יחידת המטה | אופק 324</title>
-
-<style>
-:root{
-  --bg1:#050814;
-  --bg2:#070b1a;
-  --card:rgba(15,20,45,.55);
-  --border:rgba(255,255,255,.12);
-  --text:rgba(255,255,255,.92);
-  --muted:rgba(255,255,255,.68);
-  --glass:rgba(10,12,26,.55);
-}
-
-*{box-sizing:border-box}
-html,body{height:100%;margin:0}
-body{
-  font-family:Arial,sans-serif;
-  color:var(--text);
-  overflow-x:hidden;
-  background:transparent;
-}
-
-body::before{
-  content:"";
-  position:fixed;
-  inset:0;
-  z-index:-3;
-  background:
-    radial-gradient(circle at 20% 0%, rgba(74,52,160,.35) 0%, transparent 45%),
-    radial-gradient(circle at 80% 100%, rgba(120,40,180,.28) 0%, transparent 50%),
-    linear-gradient(180deg,var(--bg1) 0%, var(--bg2) 100%);
-}
-
-.nebula{
-  position:fixed;
-  inset:-20%;
-  z-index:-2;
-  pointer-events:none;
-  background:
-    radial-gradient(circle at 35% 30%, rgba(94,80,255,.08), transparent 60%),
-    radial-gradient(circle at 70% 70%, rgba(255,70,170,.06), transparent 55%),
-    radial-gradient(circle at 20% 80%, rgba(0,220,255,.05), transparent 55%);
-  filter:blur(18px);
-  animation:nebulaMove 18s ease-in-out infinite alternate;
-}
-@keyframes nebulaMove{
-  from{transform:translate3d(-1.5%,-1%,0) scale(1.02)}
-  to{transform:translate3d(1.5%,1%,0) scale(1.04)}
-}
-
-.stars{
-  position:fixed;
-  inset:0;
-  z-index:-1;
-  pointer-events:none;
-  overflow:hidden;
-}
-.star{
-  position:absolute;
-  width:3px;
-  height:3px;
-  background:rgba(255,255,255,.35);
-  border-radius:50%;
-  animation:float 14s linear infinite;
-  filter:drop-shadow(0 0 10px rgba(255,255,255,.25));
-}
-@keyframes float{
-  from{transform:translateY(0)}
-  to{transform:translateY(-120vh)}
-}
-
-.container{
-  width:min(1200px,92%);
-  margin:auto;
-  padding:34px 0 60px;
-  min-height:100vh;
-}
-
-.hero{
-  text-align:center;
-  margin-bottom:26px;
-  padding-top:8px;
-}
-.hero h1{
-  font-size:clamp(34px,5vw,60px);
-  margin:0 0 8px;
-}
-.hero p{
-  margin:0;
-  color:var(--muted);
-  font-size:15px;
-}
-
-.info-strip{
-  display:grid;
-  grid-template-columns:repeat(3,minmax(180px,1fr));
-  gap:14px;
-  margin:24px auto 24px;
-  max-width:980px;
-}
-@media(max-width:860px){
-  .info-strip{grid-template-columns:1fr}
-}
-
-.info-card{
-  background:var(--glass);
-  border:1px solid var(--border);
-  border-radius:18px;
-  padding:16px 18px;
-  text-align:center;
-  backdrop-filter:blur(12px);
-}
-.info-card strong{
-  display:block;
-  font-size:28px;
-  margin-bottom:4px;
-}
-.info-card span{
-  color:var(--muted);
-  font-size:13px;
-}
-
-.top-actions{
-  margin:18px auto 0;
-  display:flex;
-  gap:10px;
-  justify-content:center;
-  flex-wrap:wrap;
-}
-
-.pill{
-  border:1px solid rgba(255,255,255,.22);
-  background:rgba(255,255,255,.08);
-  color:#fff;
-  border-radius:14px;
-  padding:10px 14px;
-  cursor:pointer;
-  transition:.22s;
-  text-decoration:none;
-  display:inline-flex;
-  align-items:center;
-  gap:8px;
-  user-select:none;
-}
-.pill:hover{
-  transform:translateY(-2px);
-  background:rgba(255,255,255,.14);
-}
-.pill:active{transform:translateY(0)}
-
-section{
-  margin-top:58px;
-}
-h2{
-  text-align:center;
-  margin:0 0 16px;
-  font-size:30px;
-}
-
-.card{
-  position:relative;
-  overflow:hidden;
-  background:var(--card);
-  border:1px solid var(--border);
-  border-radius:18px;
-  padding:20px;
-  isolation:isolate;
-  backdrop-filter:blur(12px);
-  transition:.25s;
-}
-.card::before{
-  content:"";
-  position:absolute;
-  inset:-2px;
-  background:radial-gradient(650px circle at var(--mx,50%) var(--my,50%), rgba(255,255,255,.18), transparent 45%);
-  opacity:0;
-  transition:.25s;
-  z-index:-1;
-}
-.card:hover{
-  transform:translateY(-6px);
-  border-color:rgba(255,255,255,.22);
-  box-shadow:0 20px 60px rgba(0,0,0,.40);
-}
-.card:hover::before{opacity:1}
-.card h3{
-  margin:0;
-  font-size:18px;
-  line-height:1.4;
-}
-
-/* מדורים */
-.dept-grid{
-  display:flex;
-  flex-wrap:wrap;
-  gap:16px;
-  justify-content:center;
-}
-.dept-grid .card{
-  cursor:default;
-  flex:0 0 calc(25% - 12px);
-  min-height:96px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
-}
-.dept-grid .card:nth-child(n+5){
-  flex:0 0 calc(33.333% - 12px);
-}
-@media(max-width:980px){
-  .dept-grid .card,
-  .dept-grid .card:nth-child(n+5){
-    flex:0 0 calc(50% - 8px);
-  }
-}
-@media(max-width:680px){
-  .dept-grid .card,
-  .dept-grid .card:nth-child(n+5){
-    flex:0 0 100%;
-  }
-}
-
-/* עולמות תוכן */
-.worlds{
-  display:grid;
-  gap:16px;
-  grid-template-columns:repeat(3,minmax(0,1fr));
-}
-@media(max-width:980px){
-  .worlds{grid-template-columns:repeat(2,minmax(0,1fr))}
-}
-@media(max-width:680px){
-  .worlds{grid-template-columns:1fr}
-}
-.world{
-  cursor:pointer;
-}
-.world:hover{
-  background:rgba(255,255,255,.10);
-}
-
-/* גאנט */
-.gantt-wrap{
-  background:rgba(10,12,22,.55);
-  border:1px solid rgba(255,255,255,.10);
-  border-radius:22px;
-  padding:18px;
-  backdrop-filter:blur(12px);
-}
-
-.gantt-top{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:12px;
-  flex-wrap:wrap;
-  margin-bottom:14px;
-}
-.gantt-top .note{
-  color:var(--muted);
-  font-size:13px;
-}
-.gantt-actions{
-  display:flex;
-  gap:10px;
-  flex-wrap:wrap;
-}
-
-.gantt{
-  overflow:auto;
-  border-radius:16px;
-  border:1px solid rgba(255,255,255,.08);
-  background:rgba(0,0,0,.18);
-  padding:14px;
-}
-
-.months{
-  display:grid;
-  grid-template-columns:240px repeat(12,110px);
-  gap:10px;
-  align-items:center;
-}
-.months .cell{
-  color:rgba(255,255,255,.75);
-  font-size:12.5px;
-  text-align:center;
-}
-.months .left{
-  text-align:right;
-  padding-right:10px;
-}
-
-.row{
-  display:grid;
-  grid-template-columns:240px repeat(12,110px);
-  gap:10px;
-  align-items:center;
-  margin-top:10px;
-}
-.task-meta{
-  display:flex;
-  flex-direction:column;
-  gap:6px;
-  padding-right:10px;
-}
-.task-title{
-  font-weight:700;
-}
-.task-sub{
-  color:var(--muted);
-  font-size:12.5px;
-}
-
-.rail{
-  grid-column:2 / span 12;
-  position:relative;
-  height:18px;
-  border-radius:999px;
-  background:rgba(255,255,255,.06);
-  border:1px solid rgba(255,255,255,.08);
-  overflow:hidden;
-}
-.marker{
-  position:absolute;
-  top:0;
-  width:2px;
-  height:100%;
-  background:rgba(255,255,255,.14);
-}
-.bar{
-  position:absolute;
-  top:2px;
-  height:14px;
-  border-radius:999px;
-  box-shadow:0 10px 28px rgba(0,0,0,.35);
-  cursor:pointer;
-}
-
-.holidays-list{
-  display:flex;
-  gap:8px;
-  flex-wrap:wrap;
-  margin:12px 0 0;
-}
-.holi-chip{
-  display:inline-flex;
-  align-items:center;
-  gap:8px;
-  padding:8px 10px;
-  border-radius:999px;
-  border:1px solid rgba(255,255,255,.14);
-  background:rgba(255,255,255,.06);
-  color:rgba(255,255,255,.82);
-  font-size:12.5px;
-  cursor:pointer;
-}
-.holi-dot{
-  width:10px;
-  height:10px;
-  border-radius:50%;
-  background:rgba(255,220,120,.9);
-  box-shadow:0 0 14px rgba(255,220,120,.45);
-}
-
-/* מודאל */
-.modal{
-  position:fixed;
-  inset:0;
-  display:none;
-  place-items:center;
-  background:rgba(0,0,0,.55);
-  z-index:999;
-  padding:18px;
-}
-.modal.show{display:grid}
-.modal-card{
-  width:min(560px,96%);
-  background:rgba(15,20,45,.92);
-  border:1px solid rgba(255,255,255,.14);
-  border-radius:18px;
-  padding:18px;
-  box-shadow:0 24px 90px rgba(0,0,0,.6);
-}
-.modal-top{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:10px;
-}
-.modal-title{
-  margin:0;
-  font-size:18px;
-}
-.modal-close{
-  border:none;
-  cursor:pointer;
-  background:rgba(255,255,255,.10);
-  color:white;
-  padding:8px 10px;
-  border-radius:12px;
-}
-.modal-body{
-  color:rgba(255,255,255,.80);
-  margin-top:10px;
-  line-height:1.6;
-}
-.modal-meta{
-  color:rgba(255,255,255,.60);
-  font-size:12.5px;
-  margin-top:10px;
-}
-
-footer{
-  margin-top:48px;
-  text-align:center;
-  color:rgba(255,255,255,.55);
-  font-size:12px;
-}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>קק״צ Ready | הכנה לקצונה</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
-
 <body>
-<div class="nebula"></div>
-<div class="stars" id="stars"></div>
+  <aside class="side">
+    <div class="brand">🪖 קק״צ Ready</div>
+    <a href="#dashboard">דשבורד</a>
+    <a href="#path">מסלול למידה</a>
+    <a href="#quick">חזרה מהירה</a>
+    <a href="#practice">תרגול</a>
+    <a href="#cards">כרטיסיות</a>
+    <a href="#exam">סימולציה</a>
+    <a href="#podcasts">פודקאסטים</a>
+  </aside>
 
-<div class="container">
-
-  <section class="hero">
-    <h1>יחידת המטה</h1>
-    <p>אופק 324</p>
-  </section>
-
-  <div class="info-strip">
-    <div class="info-card">
-      <strong>9</strong>
-      <span>ארגונים</span>
-    </div>
-    <div class="info-card">
-      <strong>1,200</strong>
-      <span>חברי צוות</span>
-    </div>
-    <div class="info-card">
-      <strong>24/7</strong>
-      <span>זמינות</span>
-    </div>
-  </div>
-
-  <div class="top-actions">
-    <button class="pill" onclick="document.getElementById('worlds').scrollIntoView({behavior:'smooth'})">
-      עולמות תוכן
-    </button>
-    <button class="pill" onclick="document.getElementById('gantt').scrollIntoView({behavior:'smooth'})">
-      גאנט שנתי
-    </button>
-  </div>
-
-  <section id="departments">
-    <h2>מדורים</h2>
-    <div class="dept-grid" id="deptCards"></div>
-  </section>
-
-  <section id="worlds">
-    <h2>עולמות תוכן</h2>
-    <div class="worlds" id="worldCards"></div>
-  </section>
-
-  <section id="gantt">
-    <h2>גאנט שנתי</h2>
-
-    <div class="gantt-wrap">
-      <div class="gantt-top">
-        <div class="note" id="ganttStatus">טוען נתונים…</div>
-        <div class="gantt-actions">
-          <button class="pill" id="btnRefresh">רענן נתונים</button>
-          <a class="pill" id="btnEditExcel" href="#" target="_blank" rel="noopener">עריכת אקסל</a>
+  <main class="app">
+    <section class="hero" id="dashboard">
+      <div>
+        <p class="eyebrow">הכנה ממוקדת לחיילים לפני קק״צ</p>
+        <h1>לא קוראים PDF שלם. לומדים חכם.</h1>
+        <p>האתר בנוי לפי מה שחייל באמת צריך: מה חייבים לדעת, תרגול לפי חולשות, כרטיסיות וסימולציית מבחן.</p>
+        <div class="hero-actions">
+          <a class="btn" href="#practice">התחל תרגול</a>
+          <a class="btn ghost" href="#quick">חזרה לפני מבחן</a>
         </div>
       </div>
-
-      <div class="gantt" id="ganttBox">
-        <div class="months" id="monthsRow"></div>
-        <div id="rows"></div>
-        <div class="holidays-list" id="holidaysList"></div>
+      <div class="progress-card">
+        <h3>ההתקדמות שלך</h3>
+        <div class="progress"><span id="progressBar"></span></div>
+        <p id="progressText">0 שאלות נענו</p>
+        <div class="mini-stats">
+          <div><b id="correctStat">0</b><span>נכונות</span></div>
+          <div><b id="accuracyStat">0%</b><span>דיוק</span></div>
+          <div><b id="weakStat">—</b><span>לחזור עליו</span></div>
+        </div>
       </div>
-    </div>
-  </section>
-
-  <footer>© 2026 • אתר יחידת המטה</footer>
-</div>
-
-<div class="modal" id="modal">
-  <div class="modal-card">
-    <div class="modal-top">
-      <h3 class="modal-title" id="modalTitle">כותרת</h3>
-      <button class="modal-close" id="modalClose">סגירה</button>
-    </div>
-    <div class="modal-body" id="modalBody">תוכן</div>
-    <div class="modal-meta" id="modalMeta"></div>
-  </div>
-</div>
-
-<script>
-const CSV_URL = "./gantt.csv";
-const EXCEL_EDIT_URL = "#"; // שימי כאן קישור קבוע לאקסל אם יש
-
-document.getElementById("btnEditExcel").href = EXCEL_EDIT_URL;
-
-/* stars */
-const stars = document.getElementById("stars");
-for(let i=0;i<60;i++){
-  const s=document.createElement("div");
-  s.className="star";
-  s.style.left=Math.random()*100+"%";
-  s.style.top=Math.random()*100+"%";
-  s.style.animationDelay=Math.random()*12+"s";
-  const size=2 + Math.random()*2.2;
-  s.style.width=size+"px";
-  s.style.height=size+"px";
-  stars.appendChild(s);
-}
-
-/* hover glow */
-function attachMouseGlow(card){
-  card.addEventListener("mousemove",(e)=>{
-    const r=card.getBoundingClientRect();
-    card.style.setProperty("--mx",((e.clientX-r.left)/r.width)*100+"%");
-    card.style.setProperty("--my",((e.clientY-r.top)/r.height)*100+"%");
-  });
-}
-
-/* modal */
-const modal=document.getElementById("modal");
-const modalTitle=document.getElementById("modalTitle");
-const modalBody=document.getElementById("modalBody");
-const modalMeta=document.getElementById("modalMeta");
-
-document.getElementById("modalClose").onclick=()=>modal.classList.remove("show");
-modal.addEventListener("click",(e)=>{ if(e.target===modal) modal.classList.remove("show"); });
-
-function openModal(title, body, meta=""){
-  modalTitle.textContent=title;
-  modalBody.textContent=body;
-  modalMeta.textContent=meta;
-  modal.classList.add("show");
-}
-
-/* departments - בלי טקסט נוסף */
-const departments = [
-  {title:"איתור והשמה"},
-  {title:"מנהלה"},
-  {title:"פיתוח רב מערכתי"},
-  {title:'תו"ב'},
-  {title:'חופ"ה'},
-  {title:"סגל"},
-  {title:"קריית התקשוב"}
-];
-
-const deptEl=document.getElementById("deptCards");
-departments.forEach(d=>{
-  const c=document.createElement("div");
-  c.className="card";
-  c.innerHTML = `<h3>${d.title}</h3>`;
-  attachMouseGlow(c);
-  deptEl.appendChild(c);
-});
-
-/* worlds */
-const worlds = [
-  {title:"אזרחים", link:"ezrahim.html"},
-  {title:"מילואים", link:"miluim.html"},
-  {title:"קצונה", link:"ktzina.html"},
-  {title:'תהליכי משא"ן', link:"mashan.html"},
-  {title:"סגל", link:"sagal.html"},
-  {title:"אירועים וחינוך", link:"events.html"},
-  {title:"קורסים", link:"courses.html"},
-  {title:"רכב", link:"vehicle.html"},
-  {title:"תקציבים ורכש", link:"budget.html"}
-];
-
-const worldsEl=document.getElementById("worldCards");
-worlds.forEach(w=>{
-  const c=document.createElement("div");
-  c.className="card world";
-  c.innerHTML=`<h3>${w.title}</h3>`;
-  attachMouseGlow(c);
-  if(w.link){
-    c.onclick=()=>window.location=w.link;
-  }
-  worldsEl.appendChild(c);
-});
-
-/* CSV helpers */
-function detectDelimiter(line){
-  const commas = (line.match(/,/g) || []).length;
-  const semicolons = (line.match(/;/g) || []).length;
-  const tabs = (line.match(/\t/g) || []).length;
-  return semicolons >= commas && semicolons >= tabs ? ";" : tabs >= commas && tabs >= semicolons ? "\t" : ",";
-}
-
-function normalizeHeader(value){
-  return String(value || "")
-    .replace(/^\uFEFF/, "")
-    .replace(/[\u200E\u200F\u202A-\u202E]/g, "")
-    .replace(/\u00A0/g, " ")
-    .trim();
-}
-
-function splitCSVLine(line, delimiter){
-  const result = [];
-  let current = "";
-  let inQuotes = false;
-
-  for(let i = 0; i < line.length; i++){
-    const char = line[i];
-    const next = line[i + 1];
-
-    if(char === '"'){
-      if(inQuotes && next === '"'){
-        current += '"';
-        i++;
-      }else{
-        inQuotes = !inQuotes;
-      }
-    }else if(char === delimiter && !inQuotes){
-      result.push(current);
-      current = "";
-    }else{
-      current += char;
-    }
-  }
-
-  result.push(current);
-  return result.map(v => v.trim());
-}
-
-function headerIndex(headers, candidates){
-  const normalized = headers.map(normalizeHeader);
-  for(const candidate of candidates){
-    const idx = normalized.indexOf(normalizeHeader(candidate));
-    if(idx >= 0) return idx;
-  }
-  return -1;
-}
-
-function parseDate(value){
-  const str = String(value || "").trim();
-  if(!str) return null;
-
-  let m = str.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
-  if(m){
-    return new Date(+m[3], +m[2]-1, +m[1]);
-  }
-
-  m = str.match(/^(\d{4})-(\d{2})-(\d{2})$/);
-  if(m){
-    return new Date(+m[1], +m[2]-1, +m[3]);
-  }
-
-  return null;
-}
-
-function pickYear(tasks, holidays){
-  for(const item of [...tasks, ...holidays]){
-    const d = parseDate(item.start);
-    if(d) return d.getFullYear();
-  }
-  return new Date().getFullYear();
-}
-
-function parseCSV(text){
-  const cleaned = text.replace(/\r\n/g, "\n").replace(/\r/g, "\n");
-  const lines = cleaned.split("\n").filter(line => line.trim().length > 0);
-
-  if(lines.length < 2){
-    throw new Error("קובץ CSV ריק או חסר נתונים.");
-  }
-
-  const delimiter = detectDelimiter(lines[0]);
-  const headers = splitCSVLine(lines[0], delimiter).map(normalizeHeader);
-
-  const iType  = headerIndex(headers, ["סוג", "Type"]);
-  const iTitle = headerIndex(headers, ["משימה", "כותרת", "Title", "Task"]);
-  const iDept  = headerIndex(headers, ["מדור מוביל", "מדור", "Dept", "Department"]);
-  const iStart = headerIndex(headers, ["תאריך התחלה", "Start", "Start Date"]);
-  const iEnd   = headerIndex(headers, ["תאריך סיום", "End", "End Date"]);
-  const iDesc  = headerIndex(headers, ["תיאור", "Description", "Desc"]);
-
-  if(iType < 0 || iTitle < 0 || iStart < 0){
-    throw new Error('הכותרות לא זוהו. צריך לפחות: "סוג", "משימה", "תאריך התחלה".');
-  }
-
-  const tasks = [];
-  const holidays = [];
-
-  for(let i = 1; i < lines.length; i++){
-    const cols = splitCSVLine(lines[i], delimiter);
-
-    const type = normalizeHeader(cols[iType] || "");
-    const title = String(cols[iTitle] || "").trim();
-    const dept = iDept >= 0 ? String(cols[iDept] || "").trim() : "";
-    const start = String(cols[iStart] || "").trim();
-    const end = iEnd >= 0 ? String(cols[iEnd] || "").trim() : "";
-    const desc = iDesc >= 0 ? String(cols[iDesc] || "").trim() : "";
-
-    if(!type || !title || !start) continue;
-
-    const item = {
-      title,
-      dept,
-      start,
-      end: end || start,
-      desc
-    };
-
-    if(type === "חג" || type.toLowerCase() === "holiday"){
-      holidays.push(item);
-    }else{
-      tasks.push(item);
-    }
-  }
-
-  return {
-    tasks,
-    holidays,
-    year: pickYear(tasks, holidays)
-  };
-}
-
-/* gantt */
-const monthsHe=["ינו","פבר","מרץ","אפר","מאי","יונ","יול","אוג","ספט","אוק","נוב","דצ"];
-const deptColors={
-  "איתור והשמה":"#4CC9F0",
-  "מנהלה":"#7B61FF",
-  "פיתוח רב מערכתי":"#00E5A8",
-  'תו"ב':"#FFB703",
-  'חופ"ה':"#FB5607",
-  "סגל":"#F72585",
-  "קריית התקשוב":"#3A86FF",
-  "":"#4CC9F0"
-};
-
-function renderGantt(data){
-  const {year, tasks, holidays} = data;
-
-  const monthsRow = document.getElementById("monthsRow");
-  monthsRow.innerHTML = "";
-
-  const left = document.createElement("div");
-  left.className = "cell left";
-  left.textContent = "משימות";
-  monthsRow.appendChild(left);
-
-  for(let m = 0; m < 12; m++){
-    const cell = document.createElement("div");
-    cell.className = "cell";
-    cell.textContent = monthsHe[m];
-    monthsRow.appendChild(cell);
-  }
-
-  const rows = document.getElementById("rows");
-  rows.innerHTML = "";
-
-  const holidaysList = document.getElementById("holidaysList");
-  holidaysList.innerHTML = "";
-
-  if(tasks.length === 0){
-    document.getElementById("ganttStatus").textContent = `לא נמצאו משימות בקובץ (שנה ${year}).`;
-  }else{
-    document.getElementById("ganttStatus").textContent = `נטענו ${tasks.length} משימות + ${holidays.length} חגים/חופשות (שנה ${year}).`;
-  }
-
-  const yearStart = new Date(year, 0, 1);
-  const yearEnd = new Date(year, 11, 31);
-  const dayMs = 1000 * 60 * 60 * 24;
-  const totalDays = Math.floor((yearEnd - yearStart) / dayMs) + 1;
-
-  function clampDate(date){
-    if(date < yearStart) return yearStart;
-    if(date > yearEnd) return yearEnd;
-    return date;
-  }
-
-  tasks.forEach(task => {
-    const rawStart = parseDate(task.start);
-    const rawEnd = parseDate(task.end) || rawStart;
-
-    if(!rawStart) return;
-
-    const start = clampDate(rawStart);
-    const end = clampDate(rawEnd);
-
-    const startDay = Math.floor((start - yearStart) / dayMs);
-    const endDay = Math.floor((end - yearStart) / dayMs);
-
-    const leftPct = (startDay / totalDays) * 100;
-    const widthPct = Math.max(1.2, ((endDay - startDay + 1) / totalDays) * 100);
-
-    const row = document.createElement("div");
-    row.className = "row";
-    row.style.cursor = "pointer";
-
-    const meta = document.createElement("div");
-    meta.className = "task-meta";
-    meta.innerHTML = `
-      <div class="task-title">${task.title}</div>
-      <div class="task-sub">${task.dept || "—"} · ${task.start}${task.end ? " – " + task.end : ""}</div>
-    `;
-    row.appendChild(meta);
-
-    const rail = document.createElement("div");
-    rail.className = "rail";
-
-    for(let m = 1; m < 12; m++){
-      const marker = document.createElement("div");
-      marker.className = "marker";
-      marker.style.left = (m / 12 * 100) + "%";
-      rail.appendChild(marker);
-    }
-
-    const bar = document.createElement("div");
-    bar.className = "bar";
-    bar.style.left = leftPct + "%";
-    bar.style.width = widthPct + "%";
-    bar.style.background = deptColors[task.dept] || "#4CC9F0";
-    bar.title = `${task.title} (${task.start} - ${task.end || task.start})`;
-
-    rail.appendChild(bar);
-
-    const cell = document.createElement("div");
-    cell.style.gridColumn = "2 / span 12";
-    cell.appendChild(rail);
-    row.appendChild(cell);
-
-    row.onclick = () => {
-      openModal(
-        task.title,
-        task.desc || "אין תיאור.",
-        `${task.dept || "—"} · ${task.start}${task.end ? " – " + task.end : ""}`
-      );
-    };
-
-    rows.appendChild(row);
-  });
-
-  holidays.forEach(h => {
-    const chip = document.createElement("div");
-    chip.className = "holi-chip";
-    chip.innerHTML = `
-      <span class="holi-dot"></span>
-      <span>${h.title}</span>
-      <span style="opacity:.7">(${h.start}${h.end ? "–" + h.end : ""})</span>
-    `;
-    chip.onclick = () => {
-      openModal(
-        h.title,
-        h.desc || "—",
-        `${h.start}${h.end ? " – " + h.end : ""}`
-      );
-    };
-    holidaysList.appendChild(chip);
-  });
-}
-
-async function loadFromUrl(){
-  const status = document.getElementById("ganttStatus");
-
-  try{
-    status.textContent = "טוען CSV…";
-
-    const res = await fetch(CSV_URL, { cache: "no-store" });
-    if(!res.ok){
-      throw new Error("לא הצלחתי לטעון את הקובץ: " + res.status);
-    }
-
-    const text = await res.text();
-    const data = parseCSV(text);
-    renderGantt(data);
-  }catch(err){
-    status.textContent = "שגיאה בטעינת הגאנט: " + err.message;
-    console.error(err);
-  }
-}
-
-document.getElementById("btnRefresh").onclick = loadFromUrl;
-loadFromUrl();
-</script>
+    </section>
+
+    <section class="panel" id="path">
+      <div class="section-head">
+        <h2>מסלול למידה</h2>
+        <p>כל נושא בנוי לפי: לקרוא קצר → לתרגל → לחזור על טעויות.</p>
+      </div>
+      <div class="path-grid" id="topicGrid"></div>
+    </section>
+
+    <section class="panel urgent" id="quick">
+      <div class="section-head">
+        <h2>מצב לפני מבחן: חייבים לזכור</h2>
+        <p>עמוד אחד לחזרה מהירה שעה לפני המבחן.</p>
+      </div>
+      <div class="must-grid" id="mustGrid"></div>
+    </section>
+
+    <section class="panel" id="practice">
+      <div class="section-head">
+        <h2>תרגול לפי נושא</h2>
+        <p>אחרי כל תשובה האתר שומר סטטיסטיקה ומזהה חולשות.</p>
+      </div>
+      <div class="chips" id="topicChips"></div>
+      <div class="quiz">
+        <div class="quiz-top">
+          <span id="quizMeta">בחר נושא</span>
+          <span id="quizScore">0/0</span>
+        </div>
+        <h3 id="questionText"></h3>
+        <div id="answers"></div>
+        <p id="feedback"></p>
+        <button class="btn" id="nextBtn">שאלה הבאה</button>
+        <button class="btn light" id="resetBtn">איפוס תרגול</button>
+      </div>
+    </section>
+
+    <section class="panel" id="cards">
+      <div class="section-head">
+        <h2>כרטיסיות שינון</h2>
+        <p>לחצי על הכרטיס כדי להפוך. מעולה לתאריכים, מושגים ואישים.</p>
+      </div>
+      <div class="flash-wrap">
+        <button class="btn light" id="prevCard">הקודם</button>
+        <div class="flashcard" id="flashcard">
+          <div class="flash-inner">
+            <div class="flash-front" id="flashFront"></div>
+            <div class="flash-back" id="flashBack"></div>
+          </div>
+        </div>
+        <button class="btn light" id="nextCard">הבא</button>
+      </div>
+      <p class="center" id="cardMeta"></p>
+    </section>
+
+    <section class="panel exam-panel" id="exam">
+      <div class="section-head">
+        <h2>סימולציית מבחן</h2>
+        <p>20 שאלות אקראיות, טיימר, ציון ופירוט טעויות.</p>
+      </div>
+      <div class="exam-controls">
+        <button class="btn" id="startExam">התחל סימולציה</button>
+        <span id="timer">20:00</span>
+      </div>
+      <div id="examArea"></div>
+    </section>
+
+    <section class="panel" id="podcasts">
+      <div class="section-head">
+        <h2>פודקאסטים וחומר ממוקד</h2>
+        <p>קישורים מתוך מקראות ישראל.</p>
+      </div>
+      <div class="podcasts">
+        <a target="_blank" href="https://drive.google.com/file/d/17b-skOrf8PaqWBmxbQbBCPc5WUkxlRpd/view?usp=drivesdk">🎧 תעודת זהות - תולדות ישראל</a>
+        <a target="_blank" href="https://drive.google.com/file/d/1yZIm7nYq5VK7zoBBLJF7PtVxbui_T8qQ/view?usp=drivesdk">🎧 ביטחון ישראל - טופוגרפיה</a>
+        <a target="_blank" href="https://drive.google.com/file/d/1tIHqrw7RUN9ugqfYDTJlGBd3aaqucPv9/view?usp=drivesdk">🎧 שואה - סיפורה של מדינה</a>
+        <a target="_blank" href="https://drive.google.com/file/d/175Fm6-s-8qMEj8bsx8CwIxqrDjOTekFX/view?usp=drivesdk">🎧 נשיאים, ראשי ממשלה ורמטכ״לים</a>
+        <a target="_blank" href="https://drive.google.com/file/d/1sCrb-gAmM31zikuQll_ZYLUXzeEIf4ch/view?usp=drivesdk">🎧 קשר - נשק</a>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    window.TOPICS = [{"id": "identity", "title": "תעודת זהות ישראלית", "emoji": "🇮🇱", "must": ["ישראל יהודית ודמוקרטית", "הפרדת רשויות", "כנסת 120 ח״כים", "ממשלה כרשות מבצעת", "בג״ץ והרשות השופטת"], "summary": "הנושא עוסק באופי המדינה, יסודות הדמוקרטיה, מוסדות השלטון, צה״ל במדינה דמוקרטית וסמלי המדינה.", "quick": [["מדינה יהודית ודמוקרטית", "הגדרה שמופיעה בחוקי היסוד משנת 1992 ומשלבת זהות יהודית עם עקרונות דמוקרטיים."], ["הכנסת", "הרשות המחוקקת. מונה 120 חברי כנסת."], ["הממשלה", "הרשות המבצעת. קובעת מדיניות ואוכפת חוקים."], ["הרשות השופטת", "מערכת בתי המשפט, כולל בג״ץ, המספקת סעד לאזרח ומפקחת על חוקיות פעולות המדינה."], ["צה״ל", "זרוע מבצעת של הממשלה וכפוף לדרג המדיני."]]}, {"id": "symbols", "title": "סמלים לאומיים", "emoji": "🕎", "must": ["דגל ישראל", "סמל המדינה", "התקווה", "נפתלי הרץ אימבר", "ענפי זית = שלום"], "summary": "סמלי המדינה מייצגים את הריבונות, הזהות והמורשת היהודית־ישראלית.", "quick": [["הדגל", "שני פסי תכלת ומגן דוד על רקע לבן. ההשראה: הטלית."], ["התקווה", "המנון המדינה. נכתב על ידי נפתלי הרץ אימבר."], ["סמל המדינה", "מנורה, ענפי זית והשם ישראל."], ["ענפי הזית", "מסמלים את השאיפה לשלום."], ["מנורת שבעה קנים", "מייצגת את עברו של העם ואת השיבה מריבונות אבודה לריבונות מחודשת."]]}, {"id": "mosaic", "title": "הפסיפס הישראלי", "emoji": "🧩", "must": ["תורה שבכתב/בעל פה", "שבת וכשרות", "דרוזים", "מוסלמים", "בדואים וצ׳רקסים"], "summary": "הנושא עוסק בתרבות יהודית, חגים ומועדים, ומיעוטים במדינת ישראל.", "quick": [["תנ״ך", "תורה, נביאים וכתובים."], ["משנה", "קובץ הלכתי שערך רבי יהודה הנשיא."], ["שבת", "יום המנוחה השבועי ביהדות. בהלכה קיימות ל״ט אבות מלאכה."], ["דרוזים", "עדה דתית סודית; גברים דרוזים חייבים בגיוס משנת 1956."], ["חמש מצוות האסלאם", "שאהדה, צלאת, זכאת, צום הרמדאן וחאג׳."]]}, {"id": "history", "title": "תולדות ישראל וציונות", "emoji": "📜", "must": ["אבות האומה", "בית ראשון ושני", "גלות בבל", "הרצל", "תוכנית באזל"], "summary": "מהעת העתיקה, דרך חורבן וגלות, ועד ראשית הציונות והקמת התנועה הציונית.", "quick": [["אברהם אבינו", "נחשב אבי האומה היהודית."], ["בית ראשון", "נבנה על ידי שלמה המלך."], ["הצהרת כורש", "רשות ליהודים לשוב לירושלים ולכונן בית מקדש."], ["הרצל", "פרסם את ‘מדינת היהודים’ וכינס את הקונגרס הציוני הראשון."], ["תוכנית באזל", "הקמת בית לאומי לעם היהודי בארץ ישראל על פי משפט העמים."]]}, {"id": "shoah", "title": "שואה", "emoji": "🕯️", "must": ["אנטישמיות", "רפובליקת ויימאר", "היטלר 1933", "חוק ההסמכה", "תורת הגזע"], "summary": "עליית הנאצים, האידאולוגיה הנאצית, רדיפת היהודים, השמדה, הצלה והתנגדות.", "quick": [["אנטישמיות", "מושג שטבע וילהלם מאר בשנת 1879 לתיאור גישה גזענית־לאומנית כלפי יהודים."], ["1933", "היטלר מונה לקנצלר גרמניה."], ["חוק ההסמכה", "אפשר לרשות המבצעת לחוקק ללא אישור הרשות המחוקקת."], ["תורת הגזע", "הציבה את הגזע הארי בראש ההיררכיה ואת היהודים בתחתיתה."], ["התנגדות", "מרידות בגטאות, במחנות וביערות."]]}, {"id": "state", "title": "סיפורה של מדינה", "emoji": "🏛️", "must": ["עלייה וקליטה", "חברה ישראלית", "נשיאים", "ראשי ממשלה", "רמטכ״לים"], "summary": "עליות, חברה ישראלית, מנהיגות, נשיאים, ראשי ממשלה ורמטכ״לים.", "quick": [["עלייה וקליטה", "אחד הנושאים המרכזיים בפרק סיפורה של מדינה."], ["נשיא המדינה", "עומד בראש המדינה ומייצג אותה בטקסים ובחוץ."], ["דוד בן גוריון", "ראש הממשלה הראשון."], ["משה שרת", "ראש הממשלה השני וממקימי השירות הדיפלומטי הישראלי."], ["רמטכ״לים", "נדרש להכיר את הרצף המרכזי ואת ההקשר הביטחוני."]]}, {"id": "security", "title": "ביטחון ישראל", "emoji": "🪖", "must": ["כוח המגן העברי", "הקמת צה״ל", "אלטלנה", "מלחמת העצמאות", "מלחמות ומבצעים"], "summary": "כוח המגן העברי, הקמת צה״ל, מלחמות ישראל ומבצעים מרכזיים.", "quick": [["הקמת צה״ל", "נקבע כי לא יתקיים כוח צבאי אחר מלבד צה״ל."], ["אלטלנה", "פרשה שהדגישה את עקרון הממלכתיות והכפיפות לצה״ל אחד."], ["מלחמת העצמאות", "פרצה על רקע החלטת החלוקה וסיום המנדט הבריטי."], ["מלחמת ששת הימים", "1967."], ["מבצע יונתן", "נקרא גם כדור הרעם."]]}, {"id": "professional", "title": "טופוגרפיה, קשר ונשק", "emoji": "🧭", "must": ["מפה וניווט", "ציר ניווט", "קשר", "עקרונות קליעה", "איפוס ומעצורים"], "summary": "חומר מקצועי שדורש הבנה ותרגול: מפה, ניווט, קשר, נשק וקליעה.", "quick": [["טופוגרפיה", "עוסקת במפה, התמצאות ובניית ציר ניווט."], ["קשר", "כולל מכשירי קשר, נהלי דיבור ומושגים כמו מ.ק והק״שים."], ["נשק", "כולל עקרונות קליעה, איפוס, מצבים, מעצורים וירי לילה."], ["ציר ניווט", "תכנון מסלול בשטח באמצעות מפה ונקודות ציון."], ["תרגול", "בנושאים מקצועיים חשוב לפתור שאלות ולחזור על טעויות."]]}];
+    window.QUESTIONS = [{"id": 1, "topic": "identity", "question": "מהי הרשות המחוקקת במדינת ישראל?", "answers": ["הכנסת", "הממשלה", "צה״ל", "הרבנות הראשית"], "correct": 0, "explanation": "התשובה הנכונה היא: הכנסת"}, {"id": 2, "topic": "identity", "question": "כמה חברי כנסת יש בכנסת ישראל?", "answers": ["80", "100", "120", "150"], "correct": 2, "explanation": "התשובה הנכונה היא: 120"}, {"id": 3, "topic": "identity", "question": "מהי מטרת הפרדת הרשויות?", "answers": ["הגבלת כוח שלטוני באמצעות איזון ובקרה", "ביטול הכנסת", "חיזוק מפלגה אחת", "הפרדת צה״ל מהמדינה"], "correct": 0, "explanation": "התשובה הנכונה היא: הגבלת כוח שלטוני באמצעות איזון ובקרה"}, {"id": 4, "topic": "identity", "question": "מהי הרשות המבצעת?", "answers": ["הממשלה", "הכנסת", "בג״ץ", "קק״ל"], "correct": 0, "explanation": "התשובה הנכונה היא: הממשלה"}, {"id": 5, "topic": "identity", "question": "מהו בג״ץ?", "answers": ["בית משפט גבוה לצדק הדן בעתירות נגד רשויות המדינה", "גדוד בצה״ל", "חוק יסוד", "מפלגה"], "correct": 0, "explanation": "התשובה הנכונה היא: בית משפט גבוה לצדק הדן בעתירות נגד רשויות המדינה"}, {"id": 6, "topic": "identity", "question": "צה״ל כפוף ל...", "answers": ["הדרג המדיני", "האופוזיציה", "התקשורת", "הכנסת בלבד"], "correct": 0, "explanation": "התשובה הנכונה היא: הדרג המדיני"}, {"id": 7, "topic": "identity", "question": "מהי פקודה בלתי חוקית בעליל?", "answers": ["פקודה שחובה לסרב לה", "פקודה שחובה לבצע ואז לדווח", "פקודה של מפקד צעיר", "פקודה לא נוחה"], "correct": 0, "explanation": "התשובה הנכונה היא: פקודה שחובה לסרב לה"}, {"id": 8, "topic": "identity", "question": "מי מטיל את הרכבת הממשלה לאחר בחירות?", "answers": ["נשיא המדינה", "הרמטכ״ל", "יו״ר הכנסת", "מבקר המדינה"], "correct": 0, "explanation": "התשובה הנכונה היא: נשיא המדינה"}, {"id": 9, "topic": "identity", "question": "מהי אופוזיציה?", "answers": ["מפלגות שאינן שותפות לממשלה ותפקידן לבקר ולהציע אלטרנטיבה", "כל שרי הממשלה", "בית המשפט העליון", "ועדות הכנסת בלבד"], "correct": 0, "explanation": "התשובה הנכונה היא: מפלגות שאינן שותפות לממשלה ותפקידן לבקר ולהציע אלטרנטיבה"}, {"id": 10, "topic": "identity", "question": "כמה קריאות נדרשות לחוק כדי להפוך לרשמי?", "answers": ["אחת", "שתיים", "שלוש", "ארבע"], "correct": 2, "explanation": "התשובה הנכונה היא: שלוש"}, {"id": 11, "topic": "symbols", "question": "מי כתב את מילות התקווה?", "answers": ["נפתלי הרץ אימבר", "דוד וולפסון", "בנימין זאב הרצל", "שמואל כהן"], "correct": 0, "explanation": "התשובה הנכונה היא: נפתלי הרץ אימבר"}, {"id": 12, "topic": "symbols", "question": "מה הייתה ההשראה לדגל ישראל?", "answers": ["הטלית", "מדי צה״ל", "מפת הארץ", "שער טיטוס"], "correct": 0, "explanation": "התשובה הנכונה היא: הטלית"}, {"id": 13, "topic": "symbols", "question": "מה מופיע בסמל המדינה?", "answers": ["מנורה, ענפי זית והשם ישראל", "אריה וחרב", "מגן דוד בלבד", "שופר ולוחות הברית"], "correct": 0, "explanation": "התשובה הנכונה היא: מנורה, ענפי זית והשם ישראל"}, {"id": 14, "topic": "symbols", "question": "מה מסמלים ענפי הזית?", "answers": ["שלום", "מלחמה", "חקיקה", "עלייה"], "correct": 0, "explanation": "התשובה הנכונה היא: שלום"}, {"id": 15, "topic": "symbols", "question": "מה מבטאת התקווה?", "answers": ["כמיהת העם היהודי לציון ולעצמאות", "כוח צבאי", "הפרדת רשויות", "עלייה מאתיופיה"], "correct": 0, "explanation": "התשובה הנכונה היא: כמיהת העם היהודי לציון ולעצמאות"}, {"id": 16, "topic": "symbols", "question": "מי הלחין את התקווה לפי החומר?", "answers": ["שמואל כהן", "נפתלי הרץ אימבר", "דוד בן גוריון", "הרצל"], "correct": 0, "explanation": "התשובה הנכונה היא: שמואל כהן"}, {"id": 17, "topic": "symbols", "question": "איזה סמל מבוסס על שער טיטוס?", "answers": ["המנורה בסמל המדינה", "הדגל", "ההמנון", "מגן דוד"], "correct": 0, "explanation": "התשובה הנכונה היא: המנורה בסמל המדינה"}, {"id": 18, "topic": "mosaic", "question": "מהם חלקי התנ״ך?", "answers": ["תורה, נביאים וכתובים", "משנה, תלמוד ומדרש", "שחרית, מנחה וערבית", "דגל, סמל והמנון"], "correct": 0, "explanation": "התשובה הנכונה היא: תורה, נביאים וכתובים"}, {"id": 19, "topic": "mosaic", "question": "מי ערך את המשנה?", "answers": ["רבי יהודה הנשיא", "רש״י", "רמב״ם", "הרצל"], "correct": 0, "explanation": "התשובה הנכונה היא: רבי יהודה הנשיא"}, {"id": 20, "topic": "mosaic", "question": "מהם ראשי התיבות סת״ם?", "answers": ["ספר תורה, תפילין, מזוזה", "סוכות, תורה, מנחה", "סמל, תקווה, מדינה", "שבת, תורה, מצווה"], "correct": 0, "explanation": "התשובה הנכונה היא: ספר תורה, תפילין, מזוזה"}, {"id": 21, "topic": "mosaic", "question": "כמה אבות מלאכה אסורים בשבת לפי ההלכה?", "answers": ["18", "24", "39", "70"], "correct": 2, "explanation": "התשובה הנכונה היא: 39"}, {"id": 22, "topic": "mosaic", "question": "איזו עדה חייבת בגיוס חובה לגברים משנת 1956?", "answers": ["דרוזים", "נוצרים", "בדואים", "מוסלמים"], "correct": 0, "explanation": "התשובה הנכונה היא: דרוזים"}, {"id": 23, "topic": "mosaic", "question": "מהי מצוות החאג׳?", "answers": ["עלייה לרגל למכה למי שמסוגל לכך", "צום ביום כיפור", "קריאת מגילה", "הדלקת נרות"], "correct": 0, "explanation": "התשובה הנכונה היא: עלייה לרגל למכה למי שמסוגל לכך"}, {"id": 24, "topic": "mosaic", "question": "מהו עיד אל־פיטר?", "answers": ["חג הפסקת צום הרמדאן", "יום הזיכרון", "חג הקורבן בלבד", "חג נוצרי"], "correct": 0, "explanation": "התשובה הנכונה היא: חג הפסקת צום הרמדאן"}, {"id": 25, "topic": "history", "question": "מי נחשב אבי האומה היהודית?", "answers": ["אברהם אבינו", "משה שרת", "הרצל", "טיטוס"], "correct": 0, "explanation": "התשובה הנכונה היא: אברהם אבינו"}, {"id": 26, "topic": "history", "question": "מי היה המלך הראשון של ישראל?", "answers": ["שאול", "דוד", "שלמה", "רחבעם"], "correct": 0, "explanation": "התשובה הנכונה היא: שאול"}, {"id": 27, "topic": "history", "question": "מי בנה את בית המקדש הראשון?", "answers": ["שלמה", "שאול", "דוד", "כורש"], "correct": 0, "explanation": "התשובה הנכונה היא: שלמה"}, {"id": 28, "topic": "history", "question": "מה קרה לאחר מות שלמה?", "answers": ["הממלכה התפלגה ליהודה וישראל", "הוקם צה״ל", "נחתמה מגילת העצמאות", "פרץ מרד גטו ורשה"], "correct": 0, "explanation": "התשובה הנכונה היא: הממלכה התפלגה ליהודה וישראל"}, {"id": 29, "topic": "history", "question": "מי נתן ליהודים רשות לשוב לירושלים?", "answers": ["כורש", "טיטוס", "הרצל", "אנטיוכוס"], "correct": 0, "explanation": "התשובה הנכונה היא: כורש"}, {"id": 30, "topic": "history", "question": "באיזו שנה נחרב בית המקדש השני?", "answers": ["70 לספירה", "1492", "1948", "1967"], "correct": 0, "explanation": "התשובה הנכונה היא: 70 לספירה"}, {"id": 31, "topic": "history", "question": "מי פרסם את ‘אוטואמנציפציה’?", "answers": ["יהודה לייב פינסקר", "הרצל", "אחד העם", "ז׳בוטינסקי"], "correct": 0, "explanation": "התשובה הנכונה היא: יהודה לייב פינסקר"}, {"id": 32, "topic": "history", "question": "באיזו שנה התכנס הקונגרס הציוני הראשון?", "answers": ["1882", "1896", "1897", "1904"], "correct": 2, "explanation": "התשובה הנכונה היא: 1897"}, {"id": 33, "topic": "history", "question": "מי מזוהה עם הציונות הרוחנית?", "answers": ["אחד העם", "הרצל", "מנחם אוסישקין", "נחמן סירקין"], "correct": 0, "explanation": "התשובה הנכונה היא: אחד העם"}, {"id": 34, "topic": "history", "question": "מי מזוהה עם הציונות הרוויזיוניסטית?", "answers": ["זאב ז׳בוטינסקי", "חיים ויצמן", "אחד העם", "רש״י"], "correct": 0, "explanation": "התשובה הנכונה היא: זאב ז׳בוטינסקי"}, {"id": 35, "topic": "shoah", "question": "מי טבע את המושג אנטישמיות?", "answers": ["וילהלם מאר", "הרצל", "היטלר", "רש״י"], "correct": 0, "explanation": "התשובה הנכונה היא: וילהלם מאר"}, {"id": 36, "topic": "shoah", "question": "באיזו שנה מונה היטלר לקנצלר?", "answers": ["1923", "1930", "1933", "1945"], "correct": 2, "explanation": "התשובה הנכונה היא: 1933"}, {"id": 37, "topic": "shoah", "question": "מה קבע חוק ההסמכה?", "answers": ["שהרשות המבצעת יכולה לחוקק ללא אישור הרשות המחוקקת", "שכל יהודי זכאי לעלות ארצה", "הקמת צה״ל", "ביטול המפלגה הנאצית"], "correct": 0, "explanation": "התשובה הנכונה היא: שהרשות המבצעת יכולה לחוקק ללא אישור הרשות המחוקקת"}, {"id": 38, "topic": "shoah", "question": "מהו אחד מעקרונות האידאולוגיה הנאצית?", "answers": ["עליונות הגזע הארי", "שוויון זכויות לכל", "דמוקרטיה ישירה", "חירות הפרט"], "correct": 0, "explanation": "התשובה הנכונה היא: עליונות הגזע הארי"}, {"id": 39, "topic": "shoah", "question": "מה היה החרם הכלכלי של 1933?", "answers": ["חרם על בתי עסק יהודיים", "הסכם שלום", "חוק השבות", "הקמת כנסת"], "correct": 0, "explanation": "התשובה הנכונה היא: חרם על בתי עסק יהודיים"}, {"id": 40, "topic": "shoah", "question": "מהי רפובליקת ויימאר?", "answers": ["גרמניה שלאחר מלחמת העולם הראשונה", "ממלכת יהודה", "תנועה ציונית", "ארגון צבאי"], "correct": 0, "explanation": "התשובה הנכונה היא: גרמניה שלאחר מלחמת העולם הראשונה"}, {"id": 41, "topic": "shoah", "question": "מה מסמל יום הזיכרון הבינלאומי לשואה?", "answers": ["שחרור אושוויץ ב־27 בינואר", "הכרזת העצמאות", "סיום מלחמת ששת הימים", "הצהרת בלפור"], "correct": 0, "explanation": "התשובה הנכונה היא: שחרור אושוויץ ב־27 בינואר"}, {"id": 42, "topic": "state", "question": "איזה נושא שייך לפרק סיפורה של מדינה?", "answers": ["עלייה וקליטה", "עקרונות קליעה בלבד", "תפילין בלבד", "משפט דרייפוס"], "correct": 0, "explanation": "התשובה הנכונה היא: עלייה וקליטה"}, {"id": 43, "topic": "state", "question": "מי היה ראש הממשלה הראשון?", "answers": ["דוד בן גוריון", "משה שרת", "לוי אשכול", "מנחם בגין"], "correct": 0, "explanation": "התשובה הנכונה היא: דוד בן גוריון"}, {"id": 44, "topic": "state", "question": "מהו תפקיד נשיא המדינה?", "answers": ["לעמוד בראש המדינה ולייצגה", "לפקד ישירות על צה״ל", "לחוקק חוקים לבד", "לבטל החלטות ממשלה"], "correct": 0, "explanation": "התשובה הנכונה היא: לעמוד בראש המדינה ולייצגה"}, {"id": 45, "topic": "state", "question": "מי היה ראש הממשלה השני?", "answers": ["משה שרת", "דוד בן גוריון", "יצחק רבין", "שמעון פרס"], "correct": 0, "explanation": "התשובה הנכונה היא: משה שרת"}, {"id": 46, "topic": "state", "question": "מהו אחד ממוקדי הלמידה בפרק סיפורה של מדינה?", "answers": ["מנהיגים ומורשת המדינה", "ירי לילה בלבד", "תורת הגזע בלבד", "חמש מצוות האסלאם בלבד"], "correct": 0, "explanation": "התשובה הנכונה היא: מנהיגים ומורשת המדינה"}, {"id": 47, "topic": "security", "question": "מהו עקרון מרכזי בהקמת צה״ל?", "answers": ["לא יתקיים כוח צבאי אחר מלבד צה״ל", "כל מחתרת תפעל לבד", "צה״ל כפוף למפלגות", "אין שבועת אמונים"], "correct": 0, "explanation": "התשובה הנכונה היא: לא יתקיים כוח צבאי אחר מלבד צה״ל"}, {"id": 48, "topic": "security", "question": "איזו פרשה הדגישה את עקרון הממלכתיות?", "answers": ["אלטלנה", "דרייפוס", "קסטנר", "אוגנדה"], "correct": 0, "explanation": "התשובה הנכונה היא: אלטלנה"}, {"id": 49, "topic": "security", "question": "באיזו שנה התרחשה מלחמת ששת הימים?", "answers": ["1948", "1956", "1967", "1973"], "correct": 2, "explanation": "התשובה הנכונה היא: 1967"}, {"id": 50, "topic": "security", "question": "איזה מבצע נקרא גם כדור הרעם?", "answers": ["מבצע יונתן", "מבצע ליטני", "מבצע אופרה", "מבצע קדש"], "correct": 0, "explanation": "התשובה הנכונה היא: מבצע יונתן"}, {"id": 51, "topic": "security", "question": "מהו הרקע למלחמת העצמאות?", "answers": ["החלטת החלוקה וסיום המנדט הבריטי", "גירוש ספרד", "חוק ההסמכה", "משפט דרייפוס"], "correct": 0, "explanation": "התשובה הנכונה היא: החלטת החלוקה וסיום המנדט הבריטי"}, {"id": 52, "topic": "security", "question": "מי היה הרמטכ״ל במלחמת העצמאות?", "answers": ["יעקב דורי", "משה דיין", "יצחק רבין", "רפאל איתן"], "correct": 0, "explanation": "התשובה הנכונה היא: יעקב דורי"}, {"id": 53, "topic": "professional", "question": "מהו אחד הנושאים המרכזיים בטופוגרפיה?", "answers": ["בניית ציר ניווט", "חוק השבות", "מגילת אסתר", "קואליציה"], "correct": 0, "explanation": "התשובה הנכונה היא: בניית ציר ניווט"}, {"id": 54, "topic": "professional", "question": "מהו שימוש מרכזי במפה?", "answers": ["התמצאות וניווט", "חקיקת חוקים", "בחירת נשיא", "כתיבת המנון"], "correct": 0, "explanation": "התשובה הנכונה היא: התמצאות וניווט"}, {"id": 55, "topic": "professional", "question": "באיזה תחום יופיעו מושגים כמו מ.ק והק״שים?", "answers": ["קשר", "שואה", "תולדות ישראל", "סמלי המדינה"], "correct": 0, "explanation": "התשובה הנכונה היא: קשר"}, {"id": 56, "topic": "professional", "question": "מה נכלל בפרק נשק?", "answers": ["עקרונות קליעה, איפוס, מצבים ומעצורים", "חגי ישראל", "רשויות השלטון", "ציונות רוחנית"], "correct": 0, "explanation": "התשובה הנכונה היא: עקרונות קליעה, איפוס, מצבים ומעצורים"}, {"id": 57, "topic": "professional", "question": "למה חשוב לתרגל נשק וטופוגרפיה?", "answers": ["כי הם דורשים הבנה ויישום", "כי הם לא במבחן", "כי אין בהם מושגים", "כי הם רק לקריאה"], "correct": 0, "explanation": "התשובה הנכונה היא: כי הם דורשים הבנה ויישום"}];
+    window.FLASHCARDS = [{"topic": "identity", "front": "מדינה יהודית ודמוקרטית", "back": "הגדרה שמופיעה בחוקי היסוד משנת 1992 ומשלבת זהות יהודית עם עקרונות דמוקרטיים."}, {"topic": "identity", "front": "הכנסת", "back": "הרשות המחוקקת. מונה 120 חברי כנסת."}, {"topic": "identity", "front": "הממשלה", "back": "הרשות המבצעת. קובעת מדיניות ואוכפת חוקים."}, {"topic": "identity", "front": "הרשות השופטת", "back": "מערכת בתי המשפט, כולל בג״ץ, המספקת סעד לאזרח ומפקחת על חוקיות פעולות המדינה."}, {"topic": "identity", "front": "צה״ל", "back": "זרוע מבצעת של הממשלה וכפוף לדרג המדיני."}, {"topic": "symbols", "front": "הדגל", "back": "שני פסי תכלת ומגן דוד על רקע לבן. ההשראה: הטלית."}, {"topic": "symbols", "front": "התקווה", "back": "המנון המדינה. נכתב על ידי נפתלי הרץ אימבר."}, {"topic": "symbols", "front": "סמל המדינה", "back": "מנורה, ענפי זית והשם ישראל."}, {"topic": "symbols", "front": "ענפי הזית", "back": "מסמלים את השאיפה לשלום."}, {"topic": "symbols", "front": "מנורת שבעה קנים", "back": "מייצגת את עברו של העם ואת השיבה מריבונות אבודה לריבונות מחודשת."}, {"topic": "mosaic", "front": "תנ״ך", "back": "תורה, נביאים וכתובים."}, {"topic": "mosaic", "front": "משנה", "back": "קובץ הלכתי שערך רבי יהודה הנשיא."}, {"topic": "mosaic", "front": "שבת", "back": "יום המנוחה השבועי ביהדות. בהלכה קיימות ל״ט אבות מלאכה."}, {"topic": "mosaic", "front": "דרוזים", "back": "עדה דתית סודית; גברים דרוזים חייבים בגיוס משנת 1956."}, {"topic": "mosaic", "front": "חמש מצוות האסלאם", "back": "שאהדה, צלאת, זכאת, צום הרמדאן וחאג׳."}, {"topic": "history", "front": "אברהם אבינו", "back": "נחשב אבי האומה היהודית."}, {"topic": "history", "front": "בית ראשון", "back": "נבנה על ידי שלמה המלך."}, {"topic": "history", "front": "הצהרת כורש", "back": "רשות ליהודים לשוב לירושלים ולכונן בית מקדש."}, {"topic": "history", "front": "הרצל", "back": "פרסם את ‘מדינת היהודים’ וכינס את הקונגרס הציוני הראשון."}, {"topic": "history", "front": "תוכנית באזל", "back": "הקמת בית לאומי לעם היהודי בארץ ישראל על פי משפט העמים."}, {"topic": "shoah", "front": "אנטישמיות", "back": "מושג שטבע וילהלם מאר בשנת 1879 לתיאור גישה גזענית־לאומנית כלפי יהודים."}, {"topic": "shoah", "front": "1933", "back": "היטלר מונה לקנצלר גרמניה."}, {"topic": "shoah", "front": "חוק ההסמכה", "back": "אפשר לרשות המבצעת לחוקק ללא אישור הרשות המחוקקת."}, {"topic": "shoah", "front": "תורת הגזע", "back": "הציבה את הגזע הארי בראש ההיררכיה ואת היהודים בתחתיתה."}, {"topic": "shoah", "front": "התנגדות", "back": "מרידות בגטאות, במחנות וביערות."}, {"topic": "state", "front": "עלייה וקליטה", "back": "אחד הנושאים המרכזיים בפרק סיפורה של מדינה."}, {"topic": "state", "front": "נשיא המדינה", "back": "עומד בראש המדינה ומייצג אותה בטקסים ובחוץ."}, {"topic": "state", "front": "דוד בן גוריון", "back": "ראש הממשלה הראשון."}, {"topic": "state", "front": "משה שרת", "back": "ראש הממשלה השני וממקימי השירות הדיפלומטי הישראלי."}, {"topic": "state", "front": "רמטכ״לים", "back": "נדרש להכיר את הרצף המרכזי ואת ההקשר הביטחוני."}, {"topic": "security", "front": "הקמת צה״ל", "back": "נקבע כי לא יתקיים כוח צבאי אחר מלבד צה״ל."}, {"topic": "security", "front": "אלטלנה", "back": "פרשה שהדגישה את עקרון הממלכתיות והכפיפות לצה״ל אחד."}, {"topic": "security", "front": "מלחמת העצמאות", "back": "פרצה על רקע החלטת החלוקה וסיום המנדט הבריטי."}, {"topic": "security", "front": "מלחמת ששת הימים", "back": "1967."}, {"topic": "security", "front": "מבצע יונתן", "back": "נקרא גם כדור הרעם."}, {"topic": "professional", "front": "טופוגרפיה", "back": "עוסקת במפה, התמצאות ובניית ציר ניווט."}, {"topic": "professional", "front": "קשר", "back": "כולל מכשירי קשר, נהלי דיבור ומושגים כמו מ.ק והק״שים."}, {"topic": "professional", "front": "נשק", "back": "כולל עקרונות קליעה, איפוס, מצבים, מעצורים וירי לילה."}, {"topic": "professional", "front": "ציר ניווט", "back": "תכנון מסלול בשטח באמצעות מפה ונקודות ציון."}, {"topic": "professional", "front": "תרגול", "back": "בנושאים מקצועיים חשוב לפתור שאלות ולחזור על טעויות."}];
+  </script>
+  <script src="script.js"></script>
 </body>
 </html>
